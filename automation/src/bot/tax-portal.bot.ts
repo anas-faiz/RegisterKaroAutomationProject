@@ -86,7 +86,36 @@ async reEnterPan(pan: string): Promise<void> {
   // Wait until the OTP page appears
   await this.page.waitForLoadState('domcontentloaded');
 }
+//veify identity click
 
+async verifyIdentity(): Promise<void> {
+  logger.info('Selecting Aadhaar OTP verification');
+
+  const option = this.page.getByLabel(
+    /OTP on mobile number registered with Aadhaar/i,
+  );
+
+  await option.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await option.check();
+
+  const continueBtn = this.page.locator(
+    'button.large-button-primary',
+  );
+
+  await continueBtn.click();
+
+  // Wait until the Generate OTP option appears
+  await this.page.getByLabel(/Generate OTP/i).waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  logger.info('Verification method selected');
+}
   /**
    * Check if a CAPTCHA is present on the page.
    */

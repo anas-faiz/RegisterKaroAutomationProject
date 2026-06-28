@@ -14,6 +14,6 @@ export class ReEnteringPanHandler extends BaseStateHandler {
 
     await context.bot.reEnterPan(context.pan);
 
-    return JobState.WAITING_FOR_OTP;
+    return JobState.VERIFYING_IDENTITY;
   }
 }
