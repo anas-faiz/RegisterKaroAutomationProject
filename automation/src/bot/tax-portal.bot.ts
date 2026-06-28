@@ -116,6 +116,30 @@ async verifyIdentity(): Promise<void> {
 
   logger.info('Verification method selected');
 }
+
+//Generate Otp
+async generateOtp(): Promise<void> {
+  logger.info('Selecting Generate OTP');
+
+  const generateOtp = this.page.getByLabel(
+    /Generate OTP/i,
+  );
+
+  await generateOtp.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await generateOtp.check();
+
+  const continueBtn = this.page.locator(
+    'button.large-button-primary',
+  );
+
+  await continueBtn.click();
+
+  logger.info('OTP generation requested');
+}
   /**
    * Check if a CAPTCHA is present on the page.
    */
