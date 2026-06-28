@@ -296,6 +296,71 @@ async generateOtp(): Promise<void> {
     }
   }
 
+  async setNewPassword(): Promise<{ password: string }> {
+  logger.info('Setting new password');
+
+  const password = this.generatePassword();
+
+  const newPassword = this.page.locator('#newPassword');
+  const confirmPassword = this.page.locator('#confirmPassword');
+
+  await newPassword.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await newPassword.fill(password);
+  await confirmPassword.fill(password);
+
+  const submitBtn = this.page.getByRole('button', {
+    name: /^Submit$/i,
+  });
+
+  // Wait until Angular enables the button
+  await this.page.waitForFunction(() => {
+    const btn = document.querySelector(
+      'button.large-button-primary.width1.mTop6'
+    ) as HTMLButtonElement | null;
+
+    return !!btn && !btn.disabled;
+  });
+
+  await submitBtn.click();
+
+  // Wait until either success page or success message appears
+  await this.page.waitForLoadState('networkidle');
+
+  logger.info('Password updated successfully');
+
+  return { password };
+}
+
+/**
+ * Generate a strong random password
+ */
+private generatePassword(): string {
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const lower = 'abcdefghijklmnopqrstuvwxyz';
+  const numbers = '0123456789';
+  const special = '@#$%&*!';
+
+  const randomChar = (chars: string) =>
+    chars[Math.floor(Math.random() * chars.length)];
+
+  let password =
+    randomChar(upper) +
+    randomChar(lower) +
+    randomChar(numbers) +
+    randomChar(special);
+
+  const all = upper + lower + numbers;
+
+  for (let i = 0; i < 6; i++) {
+    password += randomChar(all);
+  }
+
+  return password;
+}
   /**
    * Navigate to credential generation page.
    * This is portal-specific and may need customization.
