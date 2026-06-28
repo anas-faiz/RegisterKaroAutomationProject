@@ -16,6 +16,6 @@ export class GenerateOtpHandler extends BaseStateHandler {
 
     await context.bot.generateOtp();
 
-    return JobState.WAITING_FOR_OTP;
+    return JobState.VALIDATING_AADHAAR;
   }
 }

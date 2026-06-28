@@ -86,7 +86,7 @@ async reEnterPan(pan: string): Promise<void> {
   // Wait until the OTP page appears
   await this.page.waitForLoadState('domcontentloaded');
 }
-//veify identity click
+//validate identity click
 
 async verifyIdentity(): Promise<void> {
   logger.info('Selecting Aadhaar OTP verification');
@@ -115,6 +115,39 @@ async verifyIdentity(): Promise<void> {
   });
 
   logger.info('Verification method selected');
+}
+
+//validate aadhaar click
+async validateAadhaar(): Promise<void> {
+  logger.info('Validating Aadhaar details');
+
+  // Tick the consent checkbox
+  const consentCheckbox = this.page.getByLabel(
+    /I agree to validate my Aadhaar Details/i,
+  );
+
+  await consentCheckbox.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await consentCheckbox.check();
+
+  logger.info('Aadhaar consent selected');
+
+  // Click Generate Aadhaar OTP
+  const generateOtpBtn = this.page.getByRole('button', {
+    name: /Generate Aadhaar OTP/i,
+  });
+
+  await generateOtpBtn.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await generateOtpBtn.click();
+
+  logger.info('Generate Aadhaar OTP clicked');
 }
 
 //Generate Otp
@@ -213,12 +246,28 @@ async generateOtp(): Promise<void> {
    * Enter the OTP.
    */
   async enterOtp(otp: string): Promise<void> {
-    logger.info('Entering OTP');
-    const otpInput = this.page.locator(
-      'input[name="otp"], #otp, input[placeholder*="OTP"], input[maxlength="6"]',
-    );
-    await otpInput.fill(otp);
+
+  logger.info('Entering OTP');
+
+  if (otp.length !== 6) {
+    throw new Error('OTP must be 6 digits');
   }
+
+  const otpInputs = this.page.locator(
+    'ng-otp-input input.otp-input'
+  );
+
+  await otpInputs.first().waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  for (let i = 0; i < otp.length; i++) {
+    await otpInputs.nth(i).pressSequentially(otp[i]);
+}
+
+  logger.info('OTP entered successfully');
+}
 
   /**
    * Submit OTP verification.

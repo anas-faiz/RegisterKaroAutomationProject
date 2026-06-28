@@ -20,6 +20,7 @@ import { OpeningForgotPasswordHandler } from '../state-machine/state-handlers/fo
 import { ReEnteringPanHandler } from '../state-machine/state-handlers/reEnteringPanHandler';
 import { GenerateOtpHandler } from '../state-machine/state-handlers/generateOtpHandler';
 import { VerifyIdentityHandler } from '../state-machine/state-handlers/verifyIdentityHandler';
+import { ValidatingAadhaarHandler } from '../state-machine/state-handlers/validateAdharHandler';
 
 class AutomationService {
   private activeJobs = new Map<string, AutomationFSM>();
@@ -53,6 +54,7 @@ class AutomationService {
     fsm.registerHandler(new ReEnteringPanHandler());
     fsm.registerHandler(new VerifyIdentityHandler());
     fsm.registerHandler(new GenerateOtpHandler());
+    fsm.registerHandler(new ValidatingAadhaarHandler());
     fsm.registerHandler(new WaitingCaptchaHandler());
     fsm.registerHandler(new CaptchaSubmittedHandler());
     fsm.registerHandler(new WaitingOtpHandler());
