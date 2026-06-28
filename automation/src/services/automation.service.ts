@@ -16,6 +16,7 @@ import { FailedHandler } from '../state-machine/state-handlers/failed.handler';
 import { otpBridge } from '../otp/otp-bridge';
 import { captchaBridge } from '../bot/captcha-handler';
 import { logger } from '../utils/logger';
+import { OpeningForgotPasswordHandler } from '../state-machine/state-handlers/forgot-password.handler';
 
 class AutomationService {
   private activeJobs = new Map<string, AutomationFSM>();
@@ -45,6 +46,7 @@ class AutomationService {
     fsm.registerHandler(new StartingBrowserHandler());
     fsm.registerHandler(new OpeningPortalHandler());
     fsm.registerHandler(new EnteringPanHandler());
+    fsm.registerHandler(new OpeningForgotPasswordHandler());
     fsm.registerHandler(new WaitingCaptchaHandler());
     fsm.registerHandler(new CaptchaSubmittedHandler());
     fsm.registerHandler(new WaitingOtpHandler());

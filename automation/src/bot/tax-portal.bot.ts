@@ -45,6 +45,24 @@ export class TaxPortalBot {
     await this.page.waitForTimeout(2000);
   }
 
+  //forgot password click
+  async clickForgotPassword(): Promise<void> {
+  logger.info('Clicking Forgot Password');
+
+  const forgotPasswordBtn = this.page.getByRole('link', {
+    name: /forgot password/i,
+  });
+
+  await forgotPasswordBtn.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await forgotPasswordBtn.click();
+
+  await this.page.waitForLoadState('domcontentloaded');
+}
+
   /**
    * Check if a CAPTCHA is present on the page.
    */

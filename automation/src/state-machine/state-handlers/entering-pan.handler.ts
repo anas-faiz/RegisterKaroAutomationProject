@@ -12,10 +12,15 @@ export class EnteringPanHandler extends BaseStateHandler {
     
     // Check if CAPTCHA is present, if yes transition to WAITING_FOR_CAPTCHA.
     // If not, transition to WAITING_FOR_OTP.
-    const hasCaptcha = await context.bot.isCaptchaPresent();
-    if (hasCaptcha) {
-      return JobState.WAITING_FOR_CAPTCHA;
-    }
-    return JobState.WAITING_FOR_OTP;
+    // const hasCaptcha = await context.bot.isCaptchaPresent();
+    // if (hasCaptcha) {
+    //   return JobState.WAITING_FOR_CAPTCHA;
+    // }
+    // return JobState.WAITING_FOR_OTP;
+
+    console.log("..................state....................",JobState)
+    
+    return JobState.OPENING_FORGOT_PASSWORD;
+  
   }
 }
