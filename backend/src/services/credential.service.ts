@@ -24,7 +24,7 @@ class CredentialService {
     await credentialRepository.create({
       jobId,
       userId: encrypted.encrypted,
-      password: '', // Password is part of the encrypted blob
+      password: encrypted.encrypted, // Password is part of the encrypted blob
       iv: encrypted.iv,
       authTag: encrypted.authTag,
     });
