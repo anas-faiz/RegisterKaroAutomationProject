@@ -55,7 +55,7 @@ export const TERMINAL_STATES: ReadonlySet<JobState> = new Set([
 /** States that require human interaction (OTP / CAPTCHA) */
 export const WAITING_STATES: ReadonlySet<JobState> = new Set([
   JobState.WAITING_FOR_OTP,
-  JobState.WAITING_FOR_CAPTCHA,
+  //JobState.WAITING_FOR_CAPTCHA,
 ]);
 
 /**
@@ -67,8 +67,10 @@ export const STATE_ORDER: readonly JobState[] = [
   JobState.STARTING_BROWSER,
   JobState.OPENING_PORTAL,
   JobState.ENTERING_PAN,
-  JobState.WAITING_FOR_CAPTCHA,
-  JobState.CAPTCHA_SUBMITTED,
+  // JobState.WAITING_FOR_CAPTCHA,
+  // JobState.CAPTCHA_SUBMITTED,
+  JobState.OPENING_FORGOT_PASSWORD,
+  JobState.REENTERING_PAN,
   JobState.WAITING_FOR_OTP,
   JobState.OTP_RECEIVED,
   JobState.VERIFYING_OTP,
