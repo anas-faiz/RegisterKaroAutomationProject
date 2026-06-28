@@ -63,6 +63,30 @@ export class TaxPortalBot {
   await this.page.waitForLoadState('domcontentloaded');
 }
 
+//ReEnter PAN
+
+async reEnterPan(pan: string): Promise<void> {
+  logger.info('Re-entering PAN');
+
+  const panInput = this.page.locator('#userId');
+
+  await panInput.waitFor({
+    state: 'visible',
+    timeout: 30000,
+  });
+
+  await panInput.fill(pan);
+
+  const continueBtn = this.page.locator(
+    'button.large-button-primary'
+  );
+
+  await continueBtn.click();
+
+  // Wait until the OTP page appears
+  await this.page.waitForLoadState('domcontentloaded');
+}
+
   /**
    * Check if a CAPTCHA is present on the page.
    */
