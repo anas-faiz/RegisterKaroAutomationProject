@@ -193,12 +193,12 @@ export default function JobDetails({ params }: JobDetailsProps) {
           {/* Side Operator Input Modules */}
           <div className="space-y-6">
             
-            {/* CAPTCHA solve module */}
+            {/* CAPTCHA solve module
             <CaptchaInput
               jobId={jobId}
               isEnabled={job.status === JobState.WAITING_FOR_CAPTCHA}
               captchaImageBase64={captchaImage}
-            />
+            /> */}
 
             {/* OTP Input module */}
             <OtpInput
